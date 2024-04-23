@@ -75,3 +75,11 @@ exports.login = async (req, res) => {
         res.status(500).send({ message: 'Server error', error: error.message });
     }
 };
+
+// Add this simple function to your userController.js
+
+exports.logout = async (req, res) => {
+    // This is a placeholder; actual JWT invalidation will occur client-side
+    res.send({ message: 'Logout successful. Discard the token client-side.' });
+};
+
