@@ -1,8 +1,8 @@
 const express = require('express');
 const bookRouter = require('./api/routes/bookRouter');
-const sessionsRouter = require('./api/routes/sessionsRouter');
-const userRouter = require('./api/routes/usersRouter');
-
+const sessionRouter = require('./api/routes/sessionRouter');
+const userRouter = require('./api/routes/userRouter');
+const cors = require('cors');
 const app = express();
 
 
@@ -19,7 +19,7 @@ app.use(cors(corsOptions));  // Enable CORS with options
 
 app.use(express.json());
 app.use('/api/books', bookRouter);
-app.use('/api/sessions', sessionsRouter);
+app.use('/api/sessions', sessionRouter);
 app.use('/api/users', userRouter);
 
 module.exports = app;
