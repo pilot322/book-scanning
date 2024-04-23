@@ -1,11 +1,17 @@
 const mongoose = require('mongoose');
-
-const userSchema = new mongoose.Schema({
+const { Schema } = mongoose;
+const userSchema = new Schema({
     username: { type: String, required: true, unique: true },
     passwordHash: { type: String, required: true },
-    role: { type: String, enum: ['employee', 'manager', 'admin'], default: 'employee' },
-    lastLogin: Date
+    email: { type: String, required: true },
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
+    role: { type: String, enum: ['scanner', 'manager', 'admin'], default: 'scanner', required: true },
+    department: { type: Number, required: true },
+    currentSession: { type: Schema.Types.Mixed }
 });
+
+userSchema.index({ username: 1 });
 
 // Password hashing middleware
 userSchema.pre('save', async function (next) {

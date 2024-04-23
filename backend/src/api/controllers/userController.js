@@ -54,3 +54,24 @@ exports.deleteUser = async (req, res) => {
         res.status(500).send(error);
     }
 };
+
+
+
+// Add this function to your userController.js
+
+exports.login = async (req, res) => {
+    const { username, password } = req.body;
+    try {
+        const user = await User.findByUsername(username);
+        if (!user) {
+            return res.status(404).send({ message: 'User not found' });
+        }
+        const isMatch = await user.checkPassword(password);
+        if (!isMatch) {
+            return res.status(401).send({ message: 'Invalid credentials' });
+        }
+        res.send({ message: 'Login successful', user: { id: user._id, username: user.username } });
+    } catch (error) {
+        res.status(500).send({ message: 'Server error', error: error.message });
+    }
+};
