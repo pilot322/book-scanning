@@ -1,17 +1,20 @@
 const mongoose = require('mongoose');
 
-const sessionSchema = new mongoose.Schema({
-    book: { type: mongoose.Schema.Types.ObjectId, ref: 'Book', required: true },
-    handlers: [{
-        handler: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-        startTime: { type: Date, default: Date.now },
-        endTime: Date
-    }],
-    startTime: { type: Date, default: Date.now },
-    endTime: Date,
-    status: { type: String, enum: ['started', 'paused', 'finished'], default: 'started' },
-    pagesScanned: Number
+const bookSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    barcode: { type: String, required: true, unique: true },
+    bookType: String,
+    department: String,
+    status: { type: String, enum: ['received', 'scanning', 'paused', 'finished'], default: 'received' },
+    currentHandler: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    receivedDate: { type: Date, default: Date.now },
+    completionDate: Date
 });
 
-const Session = mongoose.model('Session', sessionSchema);
-module.exports = Session;
+// Static method to find books by status
+bookSchema.statics.findByStatus = function (status) {
+    return this.find({ status });
+};
+
+const Book = mongoose.model('Book', bookSchema);
+module.exports = Book;
