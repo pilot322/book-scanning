@@ -5,7 +5,7 @@ const sessionSchema = new mongoose.Schema({
     handler: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     startTime: { type: Date, default: Date.now },
     endTime: Date,
-    status: { type: String, enum: ['started', 'paused', 'finished'], default: 'started' },
+    status: { type: String, enum: ['in_progress', 'finished'], default: 'in_progress' },
     pagesScanned: Number
 });
 
