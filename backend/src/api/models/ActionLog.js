@@ -18,5 +18,19 @@ actionLogSchema.index({ target: 1 });
 
 actionLogSchema.timestamp({ user: -1 });
 
+
+// Function to log actions and return the document
+actionLogSchema.statics.createAction = async function (actionDetails) {
+    try {
+        const action = new this(actionDetails);
+        const savedAction = await action.save();
+        console.log('Action logged successfully');
+        return savedAction; // Return the saved action object
+    } catch (error) {
+        console.error('Error logging action: ', error);
+        return null; // Return null if an error occurs
+    }
+};
+
 const ActionLog = mongoose.model('ActionLog', actionLogSchema);
 module.exports = ActionLog;

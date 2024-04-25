@@ -12,6 +12,11 @@ const bcrypt = require('bcryptjs')
 //         expect(isConnected).toBe(true);
 //     });
 // });
+beforeEach(async () => {
+    await User.deleteMany({});
+});
+
+
 describe('User Model Tests', () => {
     // Test successful user creation
     it('should create a new user successfully', async () => {
