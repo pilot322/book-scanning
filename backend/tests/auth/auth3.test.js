@@ -4,20 +4,10 @@ const User = require('../../src/api/models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const ActionLog = require('../../src/api/models/ActionLog');
+const createTestUsers = require('../createTestUsers')
 
 describe('Authentication API', () => {
-    beforeEach(async () => {
-        await User.deleteMany({});
-        await new User({
-            username: 'validUser',
-            passwordHash: 'validPass',
-            email: 'test@example.com',
-            firstName: 'Test',
-            lastName: 'User',
-            role: 'scanner',
-            department: 1
-        }).save();
-    });
+    beforeAll(createTestUsers.withDelete);
 
     it('should login successfully with correct credentials and return a JWT token', async () => {
         const res = await request(app)

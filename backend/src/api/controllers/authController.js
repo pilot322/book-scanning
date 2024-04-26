@@ -12,7 +12,7 @@ exports.login = async (req, res) => {
         }
         const isMatch = await user.checkPassword(password);
         if (!isMatch) {
-            console.log(`Password mismatch for user ${username}`);
+            // console.log(`Password mismatch for user ${username}`);
             return res.status(401).send({ message: 'Invalid username or password' });
         }
         const token = jwtMiddleware.generateToken(user);
@@ -31,6 +31,13 @@ exports.login = async (req, res) => {
 };
 
 exports.logout = async (req, res) => {
-    console.log('placeholder')
-    res.status(404).send({ message: 'Not implemented!' })
-}
+    // Log out logic: Log this action to ActionLog
+    await ActionLog.createAction({
+        user: req.user.userId,
+        actionType: 'LOGOUT',
+        onModel: 'User',
+        description: 'User logged out',
+        target: req.user.userId
+    });
+    res.send({ message: 'Logout successful. Discard the token client-side.' });
+};

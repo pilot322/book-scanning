@@ -1,15 +1,47 @@
 const Book = require('../models/Book');
+const ActionLog = require('../models/ActionLog');
 
 exports.createBook = async (req, res) => {
+    const { title, barcode } = req.body;
+    console.log('Attempting to create a new book with title:', title, 'and barcode:', barcode, 'from', req.user.userId);
+
+    if (!title || !barcode) {
+        console.error('Failed to create book: Missing required fields');
+        return res.status(400).send({ error: 'Missing required fields' });
+    }
+
+
     try {
-        const newBook = new Book(req.body);
+        const newBook = new Book({
+            title,
+            barcode,
+            receiver: req.user.userId,
+            receivedDate: new Date(),  // Explicitly set the received date to now
+            status: 'received'  // Ensure status is set to 'received' when created
+        });
+
         await newBook.save();
+        console.log('New book created successfully:', newBook);
+
+        await ActionLog.createAction({
+            user: req.user.userId,
+            actionType: 'RECEIVE_BOOK',
+            description: `Book created with ID: ${newBook._id}`,
+            onModel: 'Book',
+            target: newBook._id
+        });
+        console.log('Logged action for new book creation.');
+
         res.status(201).send(newBook);
     } catch (error) {
-        res.status(400).send(error);
+        console.error('Error creating book:', error);
+        if (error.code === 11000) {
+            console.error('Duplicate barcode error:', error.message);
+            return res.status(409).send({ error: 'Barcode must be unique' });
+        }
+        res.status(500).send({ error: 'Internal Server Error' });
     }
 };
-
 exports.getAllBooks = async (req, res) => {
     try {
         const books = await Book.find();
@@ -21,7 +53,7 @@ exports.getAllBooks = async (req, res) => {
 
 exports.getBook = async (req, res) => {
     try {
-        const book = await Book.findById(req.params.id);
+        const book = await Book.findOne({ barcode: req.params.barcode });
         if (!book) {
             return res.status(404).send('Book not found');
         }
@@ -33,24 +65,30 @@ exports.getBook = async (req, res) => {
 
 exports.updateBook = async (req, res) => {
     try {
-        const book = await Book.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        const book = await Book.findOneAndUpdate({ barcode: req.params.barcode }, req.body, { new: true, runValidators: true });
         if (!book) {
             return res.status(404).send('Book not found');
         }
         res.send(book);
     } catch (error) {
+        console.log('FUCK FUCK FUCK', error)
         res.status(400).send(error);
     }
 };
 
 exports.deleteBook = async (req, res) => {
     try {
-        const book = await Book.findByIdAndDelete(req.params.id);
-        if (!book) {
+        console.log('trying to delete the book')
+        console.log(req.params.barcode)
+        const book = await Book.deleteOne({ barcode: req.params.barcode })
+        console.log('delete: ', book)
+        if (!book || book.deletedCount === 0) {
             return res.status(404).send('Book not found');
         }
         res.send({ message: 'Book deleted successfully' });
     } catch (error) {
+
+        console.log('what the fuck', error)
         res.status(500).send(error);
     }
 };
