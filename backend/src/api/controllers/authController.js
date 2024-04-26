@@ -1,6 +1,7 @@
 // authController.js
-const jwtMiddleware = require('../middleware/auth');
+const jwtMiddleware = require('../../middleware/auth');
 const ActionLog = require('../models/ActionLog');
+const User = require('../models/User');
 
 exports.login = async (req, res) => {
     const { username, password } = req.body;
@@ -22,9 +23,14 @@ exports.login = async (req, res) => {
             description: 'User logged in',
             target: user._id
         });
-        res.send({ message: 'Login successful', token, user: { id: user._id, username: user.username } });
+        res.send({ message: 'Login successful', token: token, user: { id: user._id, username: user.username } });
     } catch (error) {
         console.error(`Login error for user ${username}: ${error.message}`);
         res.status(500).send({ message: 'Server error', error: error.message });
     }
 };
+
+exports.logout = async (req, res) => {
+    console.log('placeholder')
+    res.status(404).send({ message: 'Not implemented!' })
+}

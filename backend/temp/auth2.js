@@ -1,6 +1,6 @@
 const request = require('supertest');
-const app = require('../../src/app'); // Update the path to your Express app
-const User = require('../../src/api/models/User');  // Adjusted for typical folder structure
+const app = require('../src/app'); // Update the path to your Express app
+const User = require('../src/api/models/User');  // Adjusted for typical folder structure
 const bcrypt = require('bcryptjs')
 
 describe('Authentication API', () => {

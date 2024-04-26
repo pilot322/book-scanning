@@ -1,12 +1,12 @@
 // middleware/auth.js
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-const ActionLog = require('../models/ActionLog');
+const User = require('../api/models/User');
+const ActionLog = require('../api/models/ActionLog');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_here'; // Remember to define this in your environment
 
 exports.generateToken = (user) => {
-    return jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, { expiresIn: '4h' });
+    return jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, { expiresIn: '8h' });
 };
 
 exports.authenticateToken = (req, res, next) => {

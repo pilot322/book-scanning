@@ -1,10 +1,12 @@
 const express = require('express');
+require('dotenv').config();
 const bookRouter = require('./api/routes/bookRouter');
 const sessionRouter = require('./api/routes/sessionRouter');
 const userRouter = require('./api/routes/userRouter');
 const authRouter = require('./api/routes/authRouter');
 const cors = require('cors');
 const app = express();
+
 
 
 // TODO - to middleware

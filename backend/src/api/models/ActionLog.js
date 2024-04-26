@@ -16,19 +16,16 @@ actionLogSchema.index({ user: 1 });
 actionLogSchema.index({ actionType: 1 });
 actionLogSchema.index({ target: 1 });
 
-actionLogSchema.timestamp({ user: -1 });
+actionLogSchema.index({ timestamp: -1 });
 
 
-// Function to log actions and return the document
 actionLogSchema.statics.createAction = async function (actionDetails) {
+    const action = new this(actionDetails);
     try {
-        const action = new this(actionDetails);
-        const savedAction = await action.save();
-        console.log('Action logged successfully');
-        return savedAction; // Return the saved action object
+        return action.save(); // Ensuring a return that can be thenable
     } catch (error) {
         console.error('Error logging action: ', error);
-        return null; // Return null if an error occurs
+        throw error; // Ensuring errors are propagated
     }
 };
 

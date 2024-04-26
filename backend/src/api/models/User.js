@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const bcrypt = require('bcryptjs')
+const ActionLog = require('./ActionLog')
+
 
 const userSchema = new Schema({
     username: { type: String, required: true, unique: true },
@@ -22,45 +24,26 @@ userSchema.pre('save', async function (next) {
         return next();
 
     }
-    this.passwordHash = await bcrypt.hash(this.passwordHash, 8);
-    next();
-});
 
+    const actionType = this.isNew ? 'CREATE' : 'UPDATE';
+    const description = this.isNew ? 'New user created' : 'User details updated';
 
-userSchema.post('save', function (doc, next) {
-    let actionType = '';
-    let description = '';
-
-    if (doc.isNew) {
-        // This is a new user creation
-        actionType = 'CREATE';
-        description = 'New user created';
-    } else {
-        // This is an update to an existing user
-        actionType = 'UPDATE';
-        description = 'User details updated';
-    }
-
-    // Create an action log entry
-    ActionLog.createAction({
-        user: doc._id,
+    await ActionLog.createAction({
+        user: this._id,
         actionType: actionType,
         description: description,
         onModel: 'User',
-        target: doc._id,
+        target: this._id,
         metadata: {
-            username: doc.username,
-            email: doc.email
+            username: this.username,
+            email: this.email
         }
-    }).then(() => {
-        console.log(`Action log created for user ${actionType.toLowerCase()}`);
-        next();
-    }).catch(err => {
-        console.error('Error creating action log:', err);
-        next(err);
     });
-});
 
+
+    this.passwordHash = await bcrypt.hash(this.passwordHash, 8);
+    next();
+});
 
 // Static method to find user by username
 userSchema.statics.findByUsername = function (username) {
@@ -69,7 +52,7 @@ userSchema.statics.findByUsername = function (username) {
 
 // Instance method to check password
 userSchema.methods.checkPassword = function (password) {
-    console.log('comparing password ' + password + ` (${bcrypt.hashSync(password, 8)}) and ` + this.passwordHash)
+    // console.log('comparing password ' + password + ` (${bcrypt.hashSync(password, 8)}) and ` + this.passwordHash)
     return bcrypt.compare(password, this.passwordHash);
 };
 
