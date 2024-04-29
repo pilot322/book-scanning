@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const bcrypt = require('bcryptjs')
 const ActionLog = require('./ActionLog')
-
+const Session = require('./Session')
+const Book = require('./Book')
 
 const userSchema = new Schema({
     username: { type: String, required: true, unique: true },
@@ -25,7 +26,7 @@ userSchema.pre('save', async function (next) {
 
     }
 
-    const actionType = this.isNew ? 'CREATE' : 'UPDATE';
+    const actionType = this.isNew ? 'CREATE_USER' : 'UPDATE_USER';
     const description = this.isNew ? 'New user created' : 'User details updated';
 
     await ActionLog.createAction({
@@ -49,6 +50,45 @@ userSchema.pre('save', async function (next) {
 userSchema.statics.findByUsername = function (username) {
     return this.findOne({ username });
 };
+
+userSchema.methods.startSession = async function (bookId, sessionType, startPage) {
+    const newSession = await new Session({
+        book: bookId,
+        user: this._id,
+        sessionType: sessionType,
+        startPage: startPage
+    }).save();
+
+    const book = await Book.findById(bookId);
+    book.sessions.push(newSession._id)
+
+    this.currentSession = newSession._id;  // Update currentSession
+    await this.save();  // Save the user document
+    return newSession;
+}
+
+userSchema.methods.endSession = async function (stopPage) {
+    if (!this.currentSession) {
+        throw new Error('No active session to end');
+    }
+
+    const session = await Session.findById(this.currentSession);
+    if (!session) {
+        throw new Error('Session not found');
+    }
+
+    session.status = 'finished';
+    session.stopPage = stopPage;
+    session.endTime = new Date();
+    await session.save();
+
+    this.currentSession = null;  // Clear the current session
+    await this.save();  // Save the user document
+
+    return session;
+}
+
+
 
 // Instance method to check password
 userSchema.methods.checkPassword = function (password) {

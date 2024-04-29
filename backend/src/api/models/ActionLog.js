@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const actionLogSchema = new Schema({
-    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User' },
     actionType: { type: String, required: true }, // Such as "CREATE", "UPDATE", "DELETE"
     description: { type: String },
     target: { type: Schema.Types.ObjectId, refPath: 'onModel' },

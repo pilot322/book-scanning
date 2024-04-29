@@ -3,10 +3,10 @@ const ActionLog = require('../models/ActionLog');
 
 exports.createBook = async (req, res) => {
     const { title, barcode } = req.body;
-    console.log('Attempting to create a new book with title:', title, 'and barcode:', barcode, 'from', req.user.userId);
+    // console.log('Attempting to create a new book with title:', title, 'and barcode:', barcode, 'from', req.user.userId);
 
     if (!title || !barcode) {
-        console.error('Failed to create book: Missing required fields');
+        // console.error('Failed to create book: Missing required fields');
         return res.status(400).send({ error: 'Missing required fields' });
     }
 
@@ -21,7 +21,7 @@ exports.createBook = async (req, res) => {
         });
 
         await newBook.save();
-        console.log('New book created successfully:', newBook);
+        //  console.log('New book created successfully:', newBook);
 
         await ActionLog.createAction({
             user: req.user.userId,
@@ -30,13 +30,13 @@ exports.createBook = async (req, res) => {
             onModel: 'Book',
             target: newBook._id
         });
-        console.log('Logged action for new book creation.');
+        // console.log('Logged action for new book creation.');
 
         res.status(201).send(newBook);
     } catch (error) {
-        console.error('Error creating book:', error);
+        // console.error('Error creating book:', error);
         if (error.code === 11000) {
-            console.error('Duplicate barcode error:', error.message);
+            //  console.error('Duplicate barcode error:', error.message);
             return res.status(409).send({ error: 'Barcode must be unique' });
         }
         res.status(500).send({ error: 'Internal Server Error' });
@@ -66,29 +66,34 @@ exports.getBook = async (req, res) => {
 exports.updateBook = async (req, res) => {
     try {
         const book = await Book.findOneAndUpdate({ barcode: req.params.barcode }, req.body, { new: true, runValidators: true });
+        await ActionLog.createAction({
+            user: req.user.userId,
+            actionType: 'UPDATE_BOOK',
+            description: `Book updated. Changed: ${req.body}`,
+            onModel: 'Book',
+            target: book._id
+        });
         if (!book) {
             return res.status(404).send('Book not found');
         }
         res.send(book);
     } catch (error) {
-        console.log('FUCK FUCK FUCK', error)
         res.status(400).send(error);
     }
 };
 
 exports.deleteBook = async (req, res) => {
     try {
-        console.log('trying to delete the book')
-        console.log(req.params.barcode)
+        // console.log('trying to delete the book')
+        // console.log(req.params.barcode)
         const book = await Book.deleteOne({ barcode: req.params.barcode })
-        console.log('delete: ', book)
+        //console.log('delete: ', book)
         if (!book || book.deletedCount === 0) {
             return res.status(404).send('Book not found');
         }
         res.send({ message: 'Book deleted successfully' });
     } catch (error) {
 
-        console.log('what the fuck', error)
         res.status(500).send(error);
     }
 };

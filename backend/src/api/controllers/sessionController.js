@@ -1,12 +1,34 @@
 const Session = require('../models/Session');
+const User = require('../models/User');
 
-exports.createSession = async (req, res) => {
+exports.startSession = async (req, res) => {
     try {
-        const newSession = new Session(req.body);
-        await newSession.save();
-        res.status(201).send(newSession);
+        const user = await User.findById(req.user.userId);
+        if (!user) {
+            return res.status(404).send({ error: 'User not found' });
+        }
+        //console.log(req.body)
+        const session = await user.startSession(req.body.book, req.body.sessionType, req.body.startPage);
+        res.status(201).send(session);
     } catch (error) {
-        res.status(400).send(error);
+        //console.error('Failed to start session:', error);
+        res.status(400).send({ error: 'Failed to start session' });
+    }
+};
+
+exports.stopSession = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.userId);
+        if (!user) {
+            return res.status(404).send({ error: 'User not found' });
+        }
+
+        const session = await user.endSession(req.body.stopPage);
+
+        res.status(201).send({ status: session.status });
+    } catch (error) {
+        //console.error('Failed to start session:', error);
+        res.status(400).send({ error: 'Failed to start session' });
     }
 };
 

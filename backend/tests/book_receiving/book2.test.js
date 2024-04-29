@@ -75,7 +75,7 @@ describe('Book Management - Extended Tests', () => {
                 .set('Authorization', `Bearer ${adminToken}`)
                 .send({ title: 'notupdated', barcode: 'update123' });
             expect(res.status).toBe(201); //
-            console.log('PLEASE PLEASE PLEASE')
+            //console.log('PLEASE PLEASE PLEASE')
 
             // Assuming there's a book with barcode `update123`
             res = await request(app)
