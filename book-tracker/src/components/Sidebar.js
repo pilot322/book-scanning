@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from 'react-router-dom';
 
-function Sidebar() {
+export default function Sidebar() {
     return (
         <aside className="bg-gray-100 p-4 outline outline-1">
             <ul className="flex flex-col space-y-2">
@@ -12,5 +12,3 @@ function Sidebar() {
         </aside>
     );
 }
-
-export default Sidebar;

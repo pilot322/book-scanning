@@ -1,11 +1,9 @@
 import React from "react";
 
-function ScanPage() {
+export default function ScanPage() {
     return (
         <div>
             <h1>Scan Page</h1>
         </div>
     );
 }
-
-export default ScanPage;

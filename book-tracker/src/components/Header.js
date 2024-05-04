@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from 'react-router-dom';
 
-function Header() {
+export default function Header() {
     return (
         <header className="bg-white shadow flex justify-between p-4">
             <p>Book Tracking</p>
@@ -21,5 +21,3 @@ function Header() {
         </header>
     );
 }
-
-export default Header;

@@ -8,6 +8,9 @@ import CorrectPage from "./pages/CorrectPage";
 import Dashboard from "./pages/Dashboard";
 import View from './pages/View';
 import Statistics from './pages/Statistics';
+
+import RequireAuth from './components/RequireAuth';
+
 import NotFound from './pages/NotFound';
 // layouts
 import RootLayout from './layouts/RootLayout';
@@ -17,24 +20,28 @@ import RootLayout from './layouts/RootLayout';
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<RootLayout />}>
-            <Route path="receive" element={<ReceivePage />} />
-            <Route path="scan" element={<ScanPage />} />
-            <Route path="correct" element={<CorrectPage />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="view" element={<View />} />
-            <Route path="stats" element={<Statistics />} />
+            {/* public routes */}
             <Route path="login" element={<Login />} />
-            <Route index element={<Home />} />
-            <Route path="*" element={<NotFound />}></Route>
-        </Route>
+
+            {/* protected routes */}
+            <Route element={<RequireAuth />}>
+                <Route index element={<Home />} />
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="receive" element={<ReceivePage />} />
+                <Route path="stats" element={<Statistics />} />
+                <Route path="scan" element={<ScanPage />} />
+                <Route path="correct" element={<CorrectPage />} />
+            </Route>
+
+            {/* not found */}
+            < Route path="*" element={< NotFound />}></Route >
+        </Route >
     )
 );
 
-function App() {
+export default function App() {
     return (
         <RouterProvider router={router} />
     );
 }
 
-
-export default App;

@@ -1,11 +1,9 @@
 import React from "react";
 
-function Statistics() {
+export default function Statistics() {
     return (
         <div>
             <h1>Statistics Page</h1>
         </div>
     );
 }
-
-export default Statistics;
