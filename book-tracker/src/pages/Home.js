@@ -2,6 +2,8 @@ import React from "react";
 
 export default function Home() {
     return (
-        <p>bitchass</p>
+        <div className="home">
+            <p>Home page!</p>
+        </div>
     );
 }

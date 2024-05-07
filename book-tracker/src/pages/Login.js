@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import useAuth from '../hooks/useAuth';
 
@@ -9,7 +9,7 @@ import axios from '../api/axios'
 const LOGIN_URL = '/auth/login';
 
 export default function Login() {
-    const { setAuth } = useAuth();
+    const { auth, setAuth } = useAuth();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -21,8 +21,12 @@ export default function Login() {
     const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
+
     useEffect(() => {
-        userRef.current.focus();
+        if (auth?.roles) navigate('/');
+
+        else
+            userRef.current.focus();
     }, []);
 
     useEffect(() => {
@@ -35,11 +39,11 @@ export default function Login() {
         try {
             const response = await axios.post(
                 LOGIN_URL,
-                JSON.stringify({ username: user, password }),
+                { username: user, password },
                 {
+                    withCredentials: true,
                     headers: {
-                        'Content-Type': 'application/json',
-                        withCredentials: true
+                        'Content-Type': 'application/json'
                     }
                 }
 
@@ -47,9 +51,9 @@ export default function Login() {
             console.log(JSON.stringify(response?.data));
 
             const accessToken = response?.data?.accessToken;
-            const role = response?.data?.role;
+            const roles = response?.data?.roles;
 
-            setAuth({ user, password, role, accessToken })
+            setAuth({ user, password, roles, accessToken })
 
             setUser('');
             setPassword('');
@@ -73,36 +77,37 @@ export default function Login() {
     }
 
     return (
-        <section className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-2">Login</h1>
-            <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"}>{errMsg}</p>
-            <form onSubmit={handleSubmit}>
-                <label className="block">
-                    <span className="text-gray-700">Username</span>
-                    <input
-                        type="text"
-                        className="mt-1 block w-full input input-bordered"
-                        placeholder="john.doe"
-                        ref={userRef}
-                        onChange={(e) => setUser(e.target.value)}
-                        value={user}
-                        required
-                    />
-                </label>
-                <label className="block mt-4">
-                    <span className="text-gray-700">Password</span>
-                    <input
-                        type="password"
-                        className="mt-1 block w-full input input-bordered"
-                        placeholder="********"
-                        onChange={(e) => setPassword(e.target.value)}
-                        value={password}
-                        required
-                    />
-                </label>
-                <button type="submit" className="btn btn-primary mt-4">Login</button>
-            </form>
-        </section>
+        auth?.roles ? <div></div> :
+            <section className="container mx-auto p-4">
+                <h1 className="text-2xl font-bold mb-2">Login</h1>
+                <p ref={errRef} className={errMsg ? "errmsg text-error" : "offscreen"}>{errMsg}</p>
+                <form onSubmit={handleSubmit}>
+                    <label className="block">
+                        <span className="text-gray-700">Username</span>
+                        <input
+                            type="text"
+                            className="mt-1 block w-full input input-bordered"
+                            placeholder="john.doe"
+                            ref={userRef}
+                            onChange={(e) => setUser(e.target.value)}
+                            value={user}
+                            required
+                        />
+                    </label>
+                    <label className="block mt-4">
+                        <span className="text-gray-700">Password</span>
+                        <input
+                            type="password"
+                            className="mt-1 block w-full input input-bordered"
+                            placeholder="********"
+                            onChange={(e) => setPassword(e.target.value)}
+                            value={password}
+                            required
+                        />
+                    </label>
+                    <button type="submit" className="btn btn-primary mt-4">Login</button>
+                </form>
+            </section>
     );
 }
 

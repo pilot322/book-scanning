@@ -1,26 +1,28 @@
-// middleware/auth.js
 const jwt = require('jsonwebtoken');
 const User = require('../api/models/User');
-const ActionLog = require('../api/models/ActionLog');
+/**
+ * 
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_here'; // Remember to define this in your environment
-
-exports.generateToken = (user) => {
-    return jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, { expiresIn: '8h' });
-};
-
-exports.authenticateToken = (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1];
-
-    if (!token) {
+ */
+module.exports = async (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) {
+        console.log("No token provided");
         return res.status(401).send({ error: 'No token provided' });
     }
+    const token = authHeader.split(' ')[1];
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decoded) => {
         if (err) {
-            return res.status(401).send({ error: 'Failed to authenticate token' });
+            console.log('FUCK')
+            return res.status(403).send({ error: 'Invalid token' });
         }
-        req.user = decoded;  // Assume your token decoding sets up req.user
+        req.username = decoded.username;
+        req.roles = decoded.roles;
+        const user = await User.findByUsername(decoded.username);
+        req.userId = user._id;
+        req.user = user;
+        console.log(req.username, req.roles, req.userId);
         next();
     });
 };

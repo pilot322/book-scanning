@@ -5,14 +5,17 @@ const router = express.Router();
 
 const sessionCheck = require('../../middleware/sessionCheck');
 const checkRole = require('../../middleware/checkRole');
-const { authenticateToken } = require('../../middleware/auth');
 
 
-router.post('/start', authenticateToken, sessionCheck, sessionController.startSession);
-router.post('/stop', authenticateToken, sessionController.stopSession);
-router.get('/', authenticateToken, sessionController.getAllSessions);
-router.get('/:id', authenticateToken, sessionController.getSession);
-router.put('/:id', authenticateToken, sessionController.updateSession);
-router.delete('/:id', authenticateToken, sessionCheck, checkRole(['admin']), sessionController.deleteSession);
+router.post('/start', sessionCheck, sessionController.startSession);
+router.post('/pause', sessionController.pauseSession);
+router.post('/stop', sessionController.stopSession);
+
+router.get('/user', sessionController.getUserSessionData);
+
+router.get('/', sessionController.getAllSessions);
+router.get('/:id', sessionController.getSession);
+router.put('/:id', sessionController.updateSession);
+router.delete('/:id', sessionCheck, checkRole('admin'), sessionController.deleteSession);
 
 module.exports = router;

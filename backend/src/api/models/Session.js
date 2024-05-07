@@ -13,7 +13,7 @@ const { Schema } = mongoose;
  * @property {Date} startTime - The start time of the session. The default is the current date and time.
  * @property {Date} endTime - The end time of the session.
  * @property {string} status - The status of the session. It can be 'in_progress' or 'finished'. The default is 'in_progress'.
- * @property {number} startPage - The page number where the session starts. It is required.
+ * @property {number} startPage - The page number where the session starts.
  * @property {number} stopPage - The page number where the session stops.
  * @property {Schema.Types.Mixed} metadata - Additional data related to the session.
  */
@@ -24,7 +24,8 @@ const sessionSchema = new Schema({
     startTime: { type: Date, default: Date.now },
     endTime: Date,
     status: { type: String, enum: ['in_progress', 'finished'], default: 'in_progress' },
-    startPage: { type: Number, required: true },
+    scannerId: String,
+    startPage: Number,
     stopPage: Number,
     metadata: Schema.Types.Mixed
 });

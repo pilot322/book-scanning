@@ -1,5 +1,49 @@
 const Book = require('../models/Book');
+const User = require('../models/User');
 const ActionLog = require('../models/ActionLog');
+
+exports.receiveBatches = async (req, res) => {
+    // req.body is an array of objects with the following structure:
+    // {title: string, barcode: string}
+
+    console.log('Attempting to receive books:', req.body, 'from', req.username);
+
+    const reqbooks = req.body.books;
+
+    const user = await User.findByUsername(req.username);
+    const userid = user._id;
+    console.log(userid)
+
+    if (!Array.isArray(reqbooks) || reqbooks.length === 0) {
+        console.error('Failed to receive books: Invalid request body');
+        return res.status(400).send({ error: 'Invalid request body' });
+    };
+
+    try {
+        const books = reqbooks.map(book => ({
+            title: book.title,
+            barcode: book.barcode,
+            receiver: userid,
+            receivedDate: new Date(),  // Explicitly set the received date to now
+            status: 'received'  // Ensure status is set to 'received' when created
+        }));
+
+        const newBooks = await Book.insertMany(books);
+        console.log('New books created successfully:', newBooks);
+
+        res.status(201).send(newBooks);
+
+    }
+    catch (error) {
+        console.error('Error receiving books:', error);
+        if (error.code === 11000) {
+            console.error('Duplicate barcode error:', error.message);
+            return res.status(409).send({ error: 'Barcode must be unique' });
+        }
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+};
+
 
 exports.createBook = async (req, res) => {
     const { title, barcode } = req.body;

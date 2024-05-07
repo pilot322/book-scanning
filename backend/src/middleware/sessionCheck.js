@@ -4,9 +4,9 @@ const User = require('../api/models/User');
 
 async function enforceSingleSession(req, res, next) {
     try {
-        const user = await User.findById(req.user.userId);
+        const user = await User.findByUsername(req.username);
 
-        if (user.currentSession) {
+        if (user?.currentSession) {
             return res.status(403).send({
                 error: 'Active session in progress. Complete the session before performing other actions.'
             });

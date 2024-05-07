@@ -11,7 +11,7 @@ const createUsers = async (del) => {
         email: 'test@example.com',
         firstName: 'Giorgos',
         lastName: 'User',
-        role: 'admin',
+        roles: ['admin', 'manager', 'scanner'],
         department: 1
     }).save();
 
@@ -21,7 +21,7 @@ const createUsers = async (del) => {
         email: 'test@example.com',
         firstName: 'Makhs',
         lastName: 'User',
-        role: 'manager',
+        roles: ['manager', 'scanner'],
         department: 1
     }).save();
 
@@ -31,7 +31,7 @@ const createUsers = async (del) => {
         email: 'test@example.com',
         firstName: 'Test',
         lastName: 'User',
-        role: 'scanner',
+        roles: ['scanner'],
         department: 1
     }).save();
 
@@ -41,7 +41,7 @@ const createUsers = async (del) => {
         email: 'test@example.com',
         firstName: 'Giorgos',
         lastName: 'User',
-        role: 'scanner',
+        roles: ['scanner'],
         department: 1
     }).save();
 
@@ -51,7 +51,7 @@ const createUsers = async (del) => {
         email: 'test@example.com',
         firstName: 'Makhs',
         lastName: 'User',
-        role: 'scanner',
+        roles: ['scanner'],
         department: 1
     }).save();
 
@@ -61,7 +61,7 @@ const createUsers = async (del) => {
         email: 'test@example.com',
         firstName: 'Test',
         lastName: 'User',
-        role: 'scanner',
+        role: ['scanner'],
         department: 1
     }).save();
 };

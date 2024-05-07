@@ -11,9 +11,10 @@ const userSchema = new Schema({
     email: { type: String, required: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    role: { type: String, enum: ['scanner', 'manager', 'admin'], default: 'scanner', required: true },
+    roles: [{ type: String, enum: ['scanner', 'manager', 'admin'] }],
     department: { type: Number, required: true },
-    currentSession: { type: Schema.Types.Mixed }
+    currentSession: { type: Schema.Types.Mixed },
+    refreshToken: { type: String }
 });
 
 userSchema.index({ username: 1 });
@@ -23,24 +24,10 @@ userSchema.pre('save', async function (next) {
     // Only hash the password if it has been modified (or is new)
     if (!this.isModified('password') && !this.isNew) {
         return next();
-
     }
 
     const actionType = this.isNew ? 'CREATE_USER' : 'UPDATE_USER';
     const description = this.isNew ? 'New user created' : 'User details updated';
-
-    await ActionLog.createAction({
-        user: this._id,
-        actionType: actionType,
-        description: description,
-        onModel: 'User',
-        target: this._id,
-        metadata: {
-            username: this.username,
-            email: this.email
-        }
-    });
-
 
     this.passwordHash = await bcrypt.hash(this.passwordHash, 8);
     next();
@@ -51,22 +38,35 @@ userSchema.statics.findByUsername = function (username) {
     return this.findOne({ username });
 };
 
-userSchema.methods.startSession = async function (bookId, sessionType, startPage) {
+// Instance method to start session
+userSchema.methods.startSession = async function (barcode, sessionType, scannerId) {
+    console.log('stating new session..', barcode, sessionType)
+
+    const book = await Book.findOne({ barcode });
+    if (!book) {
+        throw new Error('Book not found');
+    }
     const newSession = await new Session({
-        book: bookId,
+        book: book._id,
         user: this._id,
         sessionType: sessionType,
-        startPage: startPage
+        scannerId: scannerId
     }).save();
 
-    const book = await Book.findById(bookId);
-    book.sessions.push(newSession._id)
+    book.sessions.push(newSession._id);
+    await book.save();
 
     this.currentSession = newSession._id;  // Update currentSession
     await this.save();  // Save the user document
     return newSession;
 }
 
+userSchema.methods.clearSession = async function () {
+    this.currentSession = null;  // Clear the current session
+    await this.save();  // Save the user document
+}
+
+// instance method to end session
 userSchema.methods.endSession = async function (stopPage) {
     if (!this.currentSession) {
         throw new Error('No active session to end');
@@ -88,11 +88,8 @@ userSchema.methods.endSession = async function (stopPage) {
     return session;
 }
 
-
-
 // Instance method to check password
 userSchema.methods.checkPassword = function (password) {
-    // console.log('comparing password ' + password + ` (${bcrypt.hashSync(password, 8)}) and ` + this.passwordHash)
     return bcrypt.compare(password, this.passwordHash);
 };
 

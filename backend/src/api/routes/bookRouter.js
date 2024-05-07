@@ -4,13 +4,11 @@ const router = express.Router();
 
 const sessionCheck = require('../../middleware/sessionCheck');
 const checkRole = require('../../middleware/checkRole');
-const { authenticateToken } = require('../../middleware/auth');
 
-
-router.post('/', authenticateToken, checkRole(['admin', 'manager']), sessionCheck, bookController.createBook);
-router.put('/:barcode', authenticateToken, checkRole(['admin', 'manager']), sessionCheck, bookController.updateBook);
-router.delete('/:barcode', authenticateToken, checkRole(['admin']), sessionCheck, bookController.deleteBook);
-router.get('/', authenticateToken, sessionCheck, bookController.getAllBooks);
-router.get('/:barcode', authenticateToken, bookController.getBook);
+router.post('/', checkRole('manager'), sessionCheck, bookController.receiveBatches);
+router.put('/:barcode', checkRole('manager'), sessionCheck, bookController.updateBook);
+router.delete('/:barcode', checkRole(), sessionCheck, bookController.deleteBook);
+router.get('/', sessionCheck, bookController.getAllBooks);
+router.get('/:barcode', bookController.getBook);
 
 module.exports = router;
