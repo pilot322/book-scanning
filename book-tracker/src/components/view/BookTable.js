@@ -9,7 +9,7 @@ function BookTable({ books }) {
     const navigate = useNavigate();
     const handleClick = async (id) => {
         console.log('clicked', id);
-        const response = await axiosPrivate.get(`http://localhost:4000/api/books/${id}`);
+        const response = await axiosPrivate.get(`/api/books/${id}`);
         console.log(response.data);
 
         navigate('/view/book', { state: { bookdata: response.data } });

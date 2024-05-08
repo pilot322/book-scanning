@@ -18,7 +18,7 @@ export default function View() {
     const handleSearch = async () => {
         setSearch('pending');
         try {
-            const response = await axiosPrivate.post("http://localhost:4000/api/books/filter", {
+            const response = await axiosPrivate.post("/api/books/filter", {
                 date: dateRange,
                 isReceived,
                 isScanning,
