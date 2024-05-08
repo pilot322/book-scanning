@@ -17,7 +17,7 @@ function ScanSessionPage() {
     const endingFrameRef = useRef();
 
     useEffect(() => {
-        axiosPrivate.get("http://localhost:4000/api/sessions/user").then(response => {
+        axiosPrivate.get("/api/sessions/user").then(response => {
             if (response.status === 200) {
                 console.log(response.data)
                 setBarcode(response.data.barcode);
