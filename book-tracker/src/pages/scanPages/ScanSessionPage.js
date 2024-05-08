@@ -54,7 +54,7 @@ function ScanSessionPage() {
     };
 
     const handlePause = async () => {
-        const response = await axiosPrivate.post("http://localhost:4000/api/sessions/pause", {
+        const response = await axiosPrivate.post("/api/sessions/pause", {
             startingFrame: startingFrameRef.current.value,
             endingFrame: endingFrameRef.current.value
         });
@@ -70,7 +70,7 @@ function ScanSessionPage() {
     };
 
     const handleStop = async () => {
-        const response = await axiosPrivate.post("http://localhost:4000/api/sessions/stop", {
+        const response = await axiosPrivate.post("/api/sessions/stop", {
             startingFrame: startingFrameRef.current.value,
             endingFrame: endingFrameRef.current.value
         });

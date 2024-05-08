@@ -20,7 +20,7 @@ export default function ScanPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axiosPrivate.post("http://localhost:4000/api/sessions/start", {
+            const response = await axiosPrivate.post("/api/sessions/start", {
                 barcode: barcode,
                 startPage: 1, // Example value, adjust as needed
                 sessionType: 'scanning',
