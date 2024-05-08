@@ -5,6 +5,7 @@ function ViewBook() {
     const location = useLocation();
     const bookdata = location.state.bookdata;
     const { barcode, title, receiver, receivedDate, status, sessionData } = bookdata;
+
     const navigate = useNavigate();
 
     console.log(sessionData);
@@ -41,7 +42,6 @@ function ViewBook() {
                     <tr>
                         <th>Barcode</th>
                         <th>{barcode}</th>
-
                     </tr>
 
                     <tr>
@@ -68,15 +68,54 @@ function ViewBook() {
             {status !== 'received' && <p className='text-semibold'>Σέσιον:</p>}
             <div className='flex flex-wrap justify-around items-center'>
                 {sessionData.map((session, index) => (
-                    <div key={index} className='bg-amber-100 min-w-80 rounded-2xl border'>
-                        <p>Χρήστης: {session.username}</p>
-                        <p>Τύπος: {session.sessionType}</p>
-                        <p>Ώρα εκκίνησης: {session.startTime}</p>
-                        <p>Ώρα σταματημού: {session.endTime}</p>
-                        <p>Κατάσταση: {session.status}</p>
-                        <p>Αρχικό frame: {session.startPage}</p>
-                        <p>Τελικό frame: {session.stopPage}</p>
-                        <p>Scanner id: {session.scannerId}</p>
+                    <div key={index} className='card card-compact min-w-80 rounded-2xl border'>
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>Χρήστης</th>
+                                    <th>{session.username}</th>
+                                </tr>
+
+                                <tr>
+                                    <th>Τύπος</th>
+                                    <th>{session.sessionType}</th>
+                                </tr>
+
+                                <tr>
+                                    <th>Ώρα εκκίνησης</th>
+                                    <th>{session.startTime}</th>
+                                </tr>
+
+                                <tr>
+                                    <th>Ώρα σταματημού</th>
+                                    <th>{session.endTime}</th>
+                                </tr>
+
+                                <tr>
+                                    <th>Κατάσταση</th>
+                                    <th>{session.status}</th>
+                                </tr>
+                                <tr>
+                                    <th>Αρχικό frame</th>
+                                    <th>{session.startPage}</th>
+                                </tr>
+                                <tr>
+                                    <th>Τελικό frame</th>
+                                    <th>{session.stopPage}</th>
+                                </tr>
+                                <tr>
+                                    <th>Scanner id</th>
+                                    <th>{session.scannerId}</th>
+                                </tr>
+                            </tbody >
+                        </table>
+
                     </div>
                 ))}
             </div>
