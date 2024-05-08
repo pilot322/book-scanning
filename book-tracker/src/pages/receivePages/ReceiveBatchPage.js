@@ -11,7 +11,7 @@ function ReceiveBatchPage({ setMakingNew, handleBatchSubmit }) {
     return (
         <div className='bg-base-200 rounded-2xl p-5 min-w-80 max-w-1/4 flex flex-col self-start justify-start w-1/2 space-y-2'>
             <select className="select select-bordered w-full ">
-                <option disabled value>Επέλεξε τύπο βιβλίου...</option>
+                <option disabled value>Επίλεξε τύπο βιβλίου...</option>
                 <option>Τύπος βιβλίου 1 - 01</option>
                 <option>Τύπος βιβλίου 2 - 02</option>
                 <option>Τύπος βιβλίου 3 - 03</option>
@@ -20,7 +20,7 @@ function ReceiveBatchPage({ setMakingNew, handleBatchSubmit }) {
             </select>
 
             <select className="select select-bordered w-full">
-                <option disabled value>Επέλεξε υποθηκοφυλάκειο...</option>
+                <option disabled value>Επίλεξε υποθηκοφυλάκειο...</option>
                 <option>Υποθηκοφυλάκειο 1 - 01</option>
                 <option>Υποθηκοφυλάκειο 2 - 02</option>
                 <option>Υποθηκοφυλάκειο 3 - 03</option>

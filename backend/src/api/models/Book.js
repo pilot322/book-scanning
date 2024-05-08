@@ -26,7 +26,7 @@ const bookSchema = new Schema({
 
 bookSchema.index({ title: 1 }); // Ascending index
 bookSchema.index({ barcode: -1 }); // Descending index
-
+bookSchema.index({ receivedDate: -1 }); // Descending index
 // Static method to find books by status
 bookSchema.statics.findByStatus = function (status) {
     return this.find({ status });

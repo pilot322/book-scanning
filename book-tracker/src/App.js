@@ -5,18 +5,19 @@ import Home from './pages/Home';  // This will include Header, Navbar, and Sideb
 import ReceivePage from "./pages/receivePages/ReceivePage";
 import ScanPage from "./pages/scanPages/ScanPage";
 import Dashboard from "./pages/Dashboard";
-import View from './pages/View';
+import View from './pages/viewPages/View';
 import Statistics from './pages/Statistics';
 
 import RequireAuth from './components/RequireAuth';
 import NotFound from './pages/NotFound';
 import ScanSessionPage from './pages/scanPages/ScanSessionPage';
-
+import ViewBook from './pages/viewPages/ViewBook';
 
 import RequireNotInSession from './components/RequireNotInSession';
 
 // layouts
 import RootLayout from './layouts/RootLayout';
+
 
 
 // orizw routes sto browser router
@@ -38,6 +39,7 @@ const router = createBrowserRouter(
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="scan" element={<ScanPage />} />
                     <Route path="view" element={<View />} />
+                    <Route path="view/book" element={<ViewBook />} />
                 </Route>
 
                 <Route element={<RequireAuth allowedRoles={['manager', 'admin']} />}>

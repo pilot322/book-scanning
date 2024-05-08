@@ -5,7 +5,7 @@ export default function Sidebar() {
     return (
         <aside className="bg-primary-content shadow p-4 h-screen w-60">
             <ul className="flex flex-col space-y-2">
-                <MyNavLink to="/receive">
+                <MyNavLink showFor="manager" to="/receive">
                     Παραλαβή
                 </MyNavLink >
 

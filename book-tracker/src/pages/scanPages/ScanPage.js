@@ -1,16 +1,14 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import useAuth from '../../hooks/useAuth';
-import useScan from '../../hooks/useScan';
+import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 export default function ScanPage() {
-    const { auth } = useAuth();
-    const { setIsScanning } = useScan();
+
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
-    const location = useLocation();
-    const from = location.state?.from?.pathname || '/';
+
 
     const barcodeRef = useRef();
     const errRef = useRef();

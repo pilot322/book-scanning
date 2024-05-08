@@ -1,17 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useScan from '../../hooks/useScan';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 function ScanSessionPage() {
-    const location = useLocation();
     const [barcode, setBarcode] = useState(null);
     const [scanner, setScanner] = useState(null);
     const [title, setTitle] = useState(null);
     const [startingFrame, setStartingFrame] = useState(0);
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
-    const { isScanning, setIsScanning } = useScan();
+    const { setIsScanning } = useScan();
 
     const [isAutoFramesChecked, setAutoFramesChecked] = useState(true);
     const startingFrameRef = useRef();
