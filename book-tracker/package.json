@@ -9,6 +9,7 @@
         "axios": "^1.6.8",
         "d3": "^7.9.0",
         "daisyui": "^4.10.2",
+        "dotenv": "^16.4.5",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
         "react-router-dom": "^6.23.0",
