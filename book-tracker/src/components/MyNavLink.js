@@ -10,15 +10,15 @@ function MyNavLink({ to, showFor, children }) {
         (showFor == null || auth?.roles?.find((role) => showFor?.includes(role))) && (
             <NavLink
                 to={isScanning ? "#" : to} // Disable navigation when scanning
-                className={
-                    ({ isActive }) =>
-                        `py-2 px-4 rounded-full
-                    ${isActive
-                            ? isScanning
-                                ? "bg-secondary-content text-base-300 cursor-not-allowed"
-                                : "font-extrabold bg-secondary text-amber-400"
-                            : "font-semibold bg-secondary-content text-black"}
-                    `
+                className={({ isActive }) =>
+                    `btn py-2 px-4 font-normal btn-ghost
+                        ${isActive & !isScanning
+                        ? "text-secondary-content"
+                        : isScanning
+                            ? "text-base-300 cursor-not-allowed btn-disabled "
+                            : "text-base-content"
+                    }
+`
                 }
                 onClick={(e) => isScanning && e.preventDefault()} // Prevent navigation
             >

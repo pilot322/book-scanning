@@ -2,8 +2,9 @@ import React from "react";
 
 export default function Dashboard() {
     return (
-        <div>
-            <h1>Dashboard</h1>
+        <div className="flex flex-col w-full">
+            <h1 className="mb-4 text-4xl font-bold">Αρχική</h1>
+
         </div>
     );
 }

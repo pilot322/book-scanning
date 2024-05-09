@@ -1,0 +1,6 @@
+.secondary-content-fill {
+    fill: theme('colors.secondary-content');
+    /* Tailwind way to access theme colors */
+    /* If the above doesn't work, use CSS variable directly like below */
+    /* fill: var(--primary); */
+}

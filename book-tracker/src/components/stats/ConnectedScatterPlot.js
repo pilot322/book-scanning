@@ -27,7 +27,7 @@ const ConnectedScatterplot = ({ data }) => {
     // build the lines and circles
 
     return (
-        <div className="card card-compact w-96 h-96 bg-base-100 shadow-xl flex items-center">
+        <div className="card card-compact w-96 h-96 bg-base-100 shadow-xl flex items-center m-5">
             <svg width={width} height={height}>
                 <path
                     d={linePath}
@@ -37,9 +37,7 @@ const ConnectedScatterplot = ({ data }) => {
                 />
             </svg>
             <div className="card-body">
-                <h2 className="card-title">Work in progress</h2>
-                <p>...</p>
-
+                <div className="skeleton w-60 h-32"></div>
             </div>
         </div>
     );

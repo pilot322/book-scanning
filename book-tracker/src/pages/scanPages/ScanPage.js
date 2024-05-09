@@ -42,35 +42,34 @@ export default function ScanPage() {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center">
-            <h1 className="mb-6 text-4xl font-extrabold">Σάρωση βιβλίου</h1>
+        <div className="flex flex-col items-start justify-start">
+            <h1 className="mb-10 text-4xl font-bold">Σάρωση βιβλίου</h1>
             <p ref={errRef} className={errMsg ? "errmsg text-error" : "offscreen"}>{errMsg}</p>
 
             <form onSubmit={handleSubmit}>
                 <label className="block">
-                    <span className="text-gray-700">Barcode</span>
+                    <span>Barcode</span>
                     <input
                         type="text"
                         className="mt-1 block w-full input input-bordered"
-                        placeholder="XXX-XXX-XXX"
                         ref={barcodeRef}
                         onChange={(e) => setBarcode(e.target.value)}
                         value={barcode}
                         required
                     />
                 </label>
+
                 <label className="block mt-4">
-                    <span className="text-gray-700">Scanner</span>
+                    <span>Scanner</span>
                     <input
                         type="text"
                         className="mt-1 block w-full input input-bordered"
-                        placeholder="XX"
                         onChange={(e) => setScanner(e.target.value)}
                         value={scanner}
                         required
                     />
                 </label>
-                <button type="submit" className="btn btn-primary mt-4">Συνέχεια</button>
+                <button type="submit" className="btn btn-primary mt-10">Συνέχεια</button>
             </form>
         </div>
     );

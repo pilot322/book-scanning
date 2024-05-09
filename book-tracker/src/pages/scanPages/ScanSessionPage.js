@@ -86,55 +86,55 @@ function ScanSessionPage() {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-start justify-start">
             <h1 className="mb-2 text-4xl font-extrabold">{barcode}</h1>
-            <h2 className="mb-2 text-2xl font-semibold">{title}</h2>
-            <p className='mb-10 font-medium'>Scanner: {scanner}</p>
+            <h2 className="mb-10 text-2xl font-semibold">{title}</h2>
+            <span className='mb-10 text-xs font-medium'>Scanner: {scanner}</span>
 
-            <div className='form-control'>
-                <label className="label cursor-pointer space-x-5">
-                    <span className="label-text">Auto frames</span>
-                    <input
-                        type="checkbox"
-                        className="toggle toggle-success"
-                        checked={isAutoFramesChecked}
-                        onChange={handleAutoFramesToggle}
-                    />
-                </label>
+            <label className="label cursor-pointer space-x-5 mb-2">
+                <span className="label-text">Auto frames</span>
+                <input
+                    type="checkbox"
+                    className={"toggle toggle-success ".concat(isAutoFramesChecked ? "[--tglbg:white]" : "")}
+                    checked={isAutoFramesChecked}
+                    onChange={handleAutoFramesToggle}
+                />
+            </label>
+
+            <div className='flex items-center w-30 mb-2'>
+                <span className='w-40'>Αρχικό frame</span>
+                <input
+                    type="text"
+                    placeholder="Type here"
+                    className="input input-bordered w-16 size-8"
+                    ref={startingFrameRef}
+                    onChange={(e) => setStartingFrame(e.target.value)}
+                    value={startingFrame}
+                />
             </div>
-            <div className='flex justify-around items-center w-full'>
-                <div className='flex flex-col items-center'>
-                    <p>Αρχικό frame</p>
-                    <input
-                        type="text"
-                        placeholder="Type here"
-                        className="input input-bordered w-32 max-w-xs"
-                        ref={startingFrameRef}
-                        onChange={(e) => setStartingFrame(e.target.value)}
-                        value={startingFrame}
-                    />
-                </div>
-                <div className='flex flex-col items-center'>
-                    <p>Τελικό frame</p>
-                    <input
-                        type="text"
-                        placeholder="Type here"
-                        className="input input-bordered w-32 max-w-xs"
-                        ref={endingFrameRef}
-                    />
-                </div>
+
+            <div className='flex items-center w-30 mb-20'>
+                <span className='w-40'>Τελικό frame</span>
+                <input
+                    type="text"
+                    placeholder="-"
+                    className="input input-bordered w-16 size-8"
+                    ref={endingFrameRef}
+                />
             </div>
-            <div className='flex justify-around items-center py-8 w-full'>
-                <button className='btn btn-warning w-1/5' onClick={handlePauseClick}>Διακοπή</button>
-                <button className='btn btn-error w-1/5' onClick={handleStopClick}>Λήξη</button>
-            </div>
+
+
+            <button className='btn btn-warning w-20 mb-5' onClick={handlePauseClick}>Διακοπή</button>
+            <button className='btn btn-error w-20' onClick={handleStopClick}>Λήξη</button>
+
+
             <dialog id="pause_modal" className="modal">
                 <div className="modal-box">
                     <h3 className="font-bold text-lg">Επιβεβαίωση λήξης</h3>
-                    <p className="py-4">Εισαι σίγουρος ότι θες να κάνεις ΔΙΑΚΟΠΗ;</p>
+                    <p className="py-4">Εισαι σίγουρος ότι θες να κάνεις <span className='text-warning font-semibold'>ΔΙΑΚΟΠΗ</span>;</p>
                     <div className="modal-action">
                         <form method="dialog">
-                            <button className="btn" onClick={handlePause}>Ναι</button>
+                            <button className="btn mr-10" onClick={handlePause}>Ναι</button>
                             <button className="btn">Άκυρο</button>
                         </form>
                     </div>
@@ -143,10 +143,10 @@ function ScanSessionPage() {
             <dialog id="stop_modal" className="modal">
                 <div className="modal-box">
                     <h3 className="font-bold text-lg">Επιβεβαίωση λήξης</h3>
-                    <p className="py-4">Είσαι σίγουρος ότι θες να κάνεις ΛΗΞΗ;</p>
+                    <p className="py-4">Είσαι σίγουρος ότι θες να κάνεις <span className='text-error font-bold'>ΛΗΞΗ</span>;</p>
                     <div className="modal-action">
                         <form method="dialog">
-                            <button className="btn" onClick={handleStop}>Ναι</button>
+                            <button className="btn mr-10" onClick={handleStop}>Ναι</button>
                             <button className="btn">Ακυρο</button>
                         </form>
                     </div>

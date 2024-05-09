@@ -3,7 +3,7 @@ import MyNavLink from "./MyNavLink";
 
 export default function Sidebar() {
     return (
-        <aside className="bg-primary-content shadow p-4 h-screen w-60">
+        <aside className="bg-base-100 shadow p-4 h-dvh min-w-64">
             <ul className="flex flex-col space-y-2">
                 <MyNavLink showFor="manager" to="/receive">
                     Παραλαβή

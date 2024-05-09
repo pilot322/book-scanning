@@ -1,5 +1,7 @@
 import React from 'react';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import getColorFromStatus from '../../utility/getColorFromStatus';
+
 import {
     useNavigate
 
@@ -16,33 +18,31 @@ function BookTable({ books }) {
     }
 
     return (
-        <div className='border rounded-2xl w-1/2 m-5'>
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th>Barcode</th>
-                        <th>Τίτλος</th>
-                        <th>Κατάσταση</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {books.map(book => (
-                        <tr className='cursor-pointer hover:bg-amber-200' key={book._id} onClick={() => handleClick(book.barcode)}>
-                            <td>{book.barcode}</td>
-                            <td>{book.title}</td>
-                            <td>{book.status}</td>
-                            {
-                                /*
-                            <td className="border px-4 py-2">
-                                <button className="btn btn-warning">Επεξεργασία</button>
-                                <button className="btn btn-error ml-4">Διαγραφή</button>
-                            </td>
-                            */
-                            }
+        <div className='flex flex-col'>
+            <span className='mb-2'>Αποτελέσματα αναζήτησης</span>
+            <div className='border border-base-300 rounded-2xl w-SEARCHCARD'>
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th className='font-bold text-primary'>Barcode</th>
+                            <th className='font-bold text-primary'>Τίτλος</th>
+                            <th className='font-bold text-primary'>Κατάσταση</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {books.map(book => (
+                            <tr className='cursor-pointer hover:bg-secondary' key={book._id} onClick={() => handleClick(book.barcode)}>
+                                <td className='font-bold'>{book.barcode}</td>
+                                <td>{book.title}</td>
+                                <td className={getColorFromStatus(book.status)}>{book.status}</td>
+                            </tr>
+                        ))}
+                        <tr>
+                            <th></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

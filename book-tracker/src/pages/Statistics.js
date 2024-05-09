@@ -12,9 +12,10 @@ export default function Statistics() {
 
 
     return (
-        <div className="flex flex-col justify-center items-center w-full">
-            <h1 className="mb-6 text-4xl font-extrabold">Στατιστικά</h1>
-            <div className="flex flex-wrap items-center justify-around space-x-10 space-y-5">
+        <div className="flex flex-col w-full">
+            <h1 className="mb-6 text-4xl font-bold">Στατιστικά</h1>
+            <div className="flex flex-wrap items-center justify-start">
+                <ConnectedScatterPlot data={getRandomData()} />
                 <ConnectedScatterPlot data={getRandomData()} />
                 <ConnectedScatterPlot data={getRandomData()} />
                 <ConnectedScatterPlot data={getRandomData()} />
