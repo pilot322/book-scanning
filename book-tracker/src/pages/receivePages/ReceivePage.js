@@ -16,7 +16,7 @@ export default function ReceivePage() {
         setMakingNew(true);
     };
 
-    const handleBatchSubmit = (numBooks, startBarcode) => {
+    const handleBatchSubmit = (numBooks, startBarcode, bookType, ypothikofylakeioId) => {
         setBatches((prevBatches) => [
             ...prevBatches,
             { id: uuidv4(), numBooks, startBarcode, books: [] },

@@ -12,6 +12,26 @@ export default function Sidebar() {
                 <MyNavLink to="/scan">
                     Σάρωση
                 </MyNavLink >
+
+                <MyNavLink to="/correct">
+                    Διόρθωση
+                </MyNavLink >
+
+                <MyNavLink to="/quality-check">
+                    Έλεγχος ποιότητας
+                </MyNavLink >
+
+                <MyNavLink to="/thumbs">
+                    Thumbs
+                </MyNavLink >
+
+                <MyNavLink to="/processing">
+                    Processing
+                </MyNavLink >
+
+                <MyNavLink to="/crop">
+                    Crop
+                </MyNavLink >
             </ul>
         </aside>
     );

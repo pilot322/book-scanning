@@ -4,7 +4,6 @@ import Login from './pages/Login';
 import Home from './pages/Home';  // This will include Header, Navbar, and Sidebar
 import ReceivePage from "./pages/receivePages/ReceivePage";
 import ScanPage from "./pages/scanPages/ScanPage";
-import Dashboard from "./pages/Dashboard";
 import View from './pages/viewPages/View';
 import Statistics from './pages/Statistics';
 
@@ -17,6 +16,8 @@ import RequireNotInSession from './components/RequireNotInSession';
 
 // layouts
 import RootLayout from './layouts/RootLayout';
+import QualityCheck from './pages/quality-check/QualityCheck';
+import Notifications from './pages/Notifications';
 
 
 
@@ -36,10 +37,13 @@ const router = createBrowserRouter(
             <Route element={<RequireNotInSession />}>
                 <Route element={<RequireAuth allowedRoles={['scanner', 'manager', 'admin']} />}>
                     <Route index element={<Home />} />
-                    <Route path="dashboard" element={<Dashboard />} />
+
                     <Route path="scan" element={<ScanPage />} />
-                    <Route path="view" element={<View />} />
                     <Route path="view/book" element={<ViewBook />} />
+                    <Route path="view" element={<View />} />
+                    <Route path="quality-check" element={<QualityCheck />} />
+                    <Route path="notifications" element={<Notifications />} />
+
                 </Route>
 
                 <Route element={<RequireAuth allowedRoles={['manager', 'admin']} />}>

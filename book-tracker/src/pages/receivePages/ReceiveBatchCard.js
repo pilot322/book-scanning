@@ -7,7 +7,7 @@ function ReceiveBatchCard({ setMakingNew, handleBatchSubmit }) {
     const [ypothikofylakeioId, setYpothikofylakeioId] = useState("");
 
     const handleOkClick = () => {
-        handleBatchSubmit(Number(numBooks), startBarcode);
+        handleBatchSubmit(Number(numBooks), startBarcode, bookType, ypothikofylakeioId);
     };
 
     const bookTypeOptions = [
@@ -15,7 +15,13 @@ function ReceiveBatchCard({ setMakingNew, handleBatchSubmit }) {
         { value: "02", label: "Τύπος βιβλίου 2" },
         { value: "03", label: "Τύπος βιβλίου 3" },
         { value: "04", label: "Τύπος βιβλίου 4" },
-        { value: "05", label: "Τύπος βιβλίου 5" }
+        { value: "05", label: "Τύπος βιβλίου 5" },
+        { value: "06", label: "Τύπος βιβλίου 6" },
+        { value: "07", label: "Τύπος βιβλίου 7" },
+        { value: "08", label: "Τύπος βιβλίου 8" },
+        { value: "09", label: "Τύπος βιβλίου 9" },
+        { value: "10", label: "Τύπος βιβλίου 10" },
+        { value: "11", label: "Τύπος βιβλίου 11" }
     ]
 
     const ypothikofylakeioOptions = [

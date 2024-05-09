@@ -43,14 +43,27 @@ export default function View() {
             <h2 className="mb-10 font-semibold">Πολλαπλή αναζήτηση</h2>
 
             <div className="card bg-base-200 p-5 w-SEARCHCARD mb-4">
-                <select className="select select-bordered w-60 mb-2" value={dateRange} onChange={e => setDateRange(e.target.value)}>
-                    <option disabled value="">Επίλεξε χρονικό πλαίσιο...</option>
-                    <option value="today">Σήμερα</option>
-                    <option value="last_week">Τελευταία βδομάδα</option>
-                    <option value="last_2_weeks">Τελευταίες 2 βδομάδες</option>
-                    <option value="last_month">Τελευταίο μήνα</option>
-                    <option value="all">Όλα</option>
-                </select>
+                <div className="flex items-center mb-2">
+                    <select className={"select select-bordered ".concat(
+                        dateRange === "from" ?
+                            "w-28" : "w-60"
+                    )
+                    } value={dateRange} onChange={e => setDateRange(e.target.value)}>
+                        <option disabled value="">Επίλεξε χρονικό πλαίσιο...</option>
+                        <option value="today">Σήμερα</option>
+                        <option value="from">Από...</option>
+                        <option value="last_week">Τελευταία βδομάδα</option>
+                        <option value="last_2_weeks">Τελευταίες 2 βδομάδες</option>
+                        <option value="last_month">Τελευταίο μήνα</option>
+                        <option value="all">Όλα</option>
+                    </select>
+                    {dateRange === "from" && <>
+                        < input type="date" className="input input-bordered ml-2" />
+                        <span className="ml-2">έως</span>
+                        < input type="date" className="input input-bordered ml-2" />
+                    </>
+                    }
+                </div>
                 <div className="flex flex-col items-end justify-end w-full">
                     <div className="flex items-center justify-start w-full space-x-10 mb-2">
                         <FilterCheckbox checked={isReceived} color="checkbox-accent" onChange={e => setIsReceived(e.target.checked)} label="Παραλαβές" />
