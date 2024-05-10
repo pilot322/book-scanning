@@ -24,7 +24,7 @@ async function dbSetup() {
 dbSetup();
 
 const corsOptions = {
-    origin: 'http://localhost:3000',  // Allow only this origin to access the API
+    origin: process.env.ORIGIN,  // Allow only this origin to access the API
     optionsSuccessStatus: 200,         // For legacy browser support
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],

@@ -8,7 +8,7 @@ const TEST_URL = 'http://localhost:4000/';
 
 
 
-const TESTING_ENVIRONMENT = true;
+const TESTING_ENVIRONMENT = false;
 
 export default axios.create({
     baseURL: TESTING_ENVIRONMENT ? TEST_URL : BASE_URL
