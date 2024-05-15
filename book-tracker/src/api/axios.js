@@ -1,12 +1,7 @@
 import axios from 'axios';
 
-
-
 const BASE_URL = 'https://68f2fcb3-d5f9-42a1-bfcf-ebcafe366e6d-00-1ji9fwriai6lm.kirk.replit.dev/';
 const TEST_URL = 'http://localhost:4000/';
-
-
-
 
 const TESTING_ENVIRONMENT = false;
 

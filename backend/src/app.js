@@ -9,7 +9,7 @@ const app = express();
 const authenticate = require('./middleware/auth');
 const cookieParser = require('cookie-parser');
 const refreshRouter = require('./api/routes/refreshRouter');
-
+const correctionRouter = require('./api/routes/correctionRouter');
 
 const mongoose = require('mongoose');
 
@@ -41,6 +41,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 //
+app.use('/correct', correctionRouter);
 app.use('/auth', authRouter);
 app.use('/refresh', refreshRouter);
 

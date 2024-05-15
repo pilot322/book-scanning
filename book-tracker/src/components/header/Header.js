@@ -18,10 +18,10 @@ export default function Header() {
                         <MyNavLink to="/view">
                             Αναζήτηση
                         </MyNavLink >
-                        <MyNavLink to="/actionlog" showFor={"admin"}>
+                        <MyNavLink to="/actionlog" showFor={["admin"]}>
                             Δράσεις
                         </MyNavLink >
-                        <MyNavLink to="/stats">
+                        <MyNavLink to="/stats" showFor={["admin", "manager"]}>
                             Στατιστικά
                         </MyNavLink >
                     </ul>
